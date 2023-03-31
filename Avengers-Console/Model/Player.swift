@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Player {
+class Player {
     let id = UUID()
     var characters : [Character] = []
     let name : String
@@ -16,7 +16,7 @@ struct Player {
         self.name = name
     }
 
-    mutating func addCharacter(_ character: Character) -> Bool{
+    func addCharacter(_ character: Character) -> Bool{
         var output = false
         if  self.characters.count < 3 && !characterAlreadyPresent(character: character){
             characters.append(character)
@@ -42,7 +42,7 @@ struct Player {
         return output
     }
     
-    mutating func renameCharacter(id: Int, name: String){ // Returns true if player can use that name.
+    func renameCharacter(id: Int, name: String){ // Returns true if player can use that name.
         for i in characters.indices {
             if characters[i].id == id {
                 characters[i].name = name

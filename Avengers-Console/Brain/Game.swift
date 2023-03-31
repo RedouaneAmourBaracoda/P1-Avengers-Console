@@ -8,14 +8,23 @@
 import Foundation
 
 class Game {
-    static var allCharacters: [Character] = []
-    var player1: Player = Player(name: "Team 1")
-    var player2: Player = Player(name: "Team 2")
-
+    private var player1: Player = Player(name: "Team 1")
+    private var player2: Player = Player(name: "Team 2")
+    private var allCharacters: [Character] {
+        var output : [Character] = []
+        let allPlayers : [Player] = [player1, player2]
+        for player in allPlayers {
+            for character in player.characters {
+                output.append(character)
+            }
+        }
+        return output
+    }
     private var currentPlayer: Player
     
     init() {
         currentPlayer = player1
+        
     }
     
     func initializeGame(){
@@ -23,24 +32,36 @@ class Game {
         Characters.displayAllPossibleCharacters()
         print("Hit enter to continue")
         let _ = readLine()
-        while player1.characters.count < 3 {
+        let players = [player1, player2]
+        for player in players {
+            currentPlayer = player
+            makeTeam(for: player)
+        }
+        let _ = readLine()
+        for element in allCharacters {
+            print(element.name)
+        }
+    }
+    
+    func makeTeam(for player: Player){
+        while player.characters.count < 3 {
             var validNumber: Bool = false
             repeat {
-                print("\(player1.name), please select character with valid number (1, 2, 3 or 4): ")
+                print("\(player.name), please select character with valid number (1, 2, 3 or 4): ")
                 if let selectedCharacter = readLine() {
                     let selectedCharacterId = Int(selectedCharacter)
                     switch selectedCharacterId{
                     case Characters.captain.id:
-                        game.add(Characters.captain.character)
+                        game.add(Characters.captain.character, for: player)
                         validNumber = true
                     case Characters.thor.id:
-                        game.add(Characters.thor.character)
+                        game.add(Characters.thor.character, for: player)
                         validNumber = true
                     case Characters.thanos.id:
-                        game.add(Characters.thanos.character)
+                        game.add(Characters.thanos.character, for: player)
                         validNumber = true
                     case Characters.doctorStrange.id :
-                        game.add(Characters.doctorStrange.character)
+                        game.add(Characters.doctorStrange.character, for: player)
                         validNumber = true
                     default:
                         print("You must enter a whole number between 1 and 4 ")
@@ -49,35 +70,25 @@ class Game {
                 }
             } while !validNumber
         }
-        showTeam()
+        showTeam(for: player)
     }
     
-    func add(_ character: Character){
-        switch currentPlayer.id {
-        case self.player1.id :
-            if self.player1.addCharacter(character) {
+    func add(_ character: Character, for player: Player){
+            if player.addCharacter(character) {
                 print("Rename this character : ")
                 if var newName = readLine() {
-                    while !canRenameCharacter(with: character.id, newName) || newName == ""{
+                    while !canRenameCharacter(with: character.id, newName, for: player) || newName == ""{
                         print("sorry this name is either non-valid or already taken, pick something else: ")
                         newName = readLine() ?? ""
                     }
                 }
             }
-        //case self.player2.id: self.player2.addCharacter(character)
-        default: print("error")
-        }
     }
     
-    func canRenameCharacter(with id: Int, _ newName: String) -> Bool{
+    func canRenameCharacter(with id: Int, _ newName: String, for player: Player) -> Bool{
         var output : Bool = false
         if !nameAlreadyExists(name: newName) {
-            switch currentPlayer.id {
-            case self.player1.id :
-                player1.renameCharacter(id: id, name: newName)
-            default :
-                player2.renameCharacter(id: id, name: newName)
-            }
+            player.renameCharacter(id: id, name: newName)
             output = true
         }
         return output
@@ -98,21 +109,11 @@ class Game {
         return output
     }
     
-    func showTeam() {
-        switch currentPlayer.id {
-        case player1.id:
+    func showTeam(for player: Player) {
             print("\(currentPlayer.name), This your team : \n")
-            for character in player1.characters {
+            for character in player.characters {
                 Characters.showCharacter(character)
             }
-        case player2.id:
-            print("\(currentPlayer.name), This your team : \n")
-            for character in player2.characters {
-                Characters.showCharacter(character)
-            }
-        default:
-            print("error")
-        }
     }
     
     func changeCurrentPlayer() {
@@ -123,107 +124,3 @@ class Game {
         }
     }
 }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-//    var player1 : Player
-//    var player2 : Player
-//
-//    var numberOfCharactersForPlayer1: Int {
-//        return player1.characters.count
-//    }
-//
-//    var numberOfCharactersForPlayer2: Int {
-//        return player2.characters.count
-//    }
-//
-//    var allCharacters: [Character] {
-//        return player1.characters + player2.characters
-//    }
-//
-//    init() {
-//        self.player1 = Player()
-//        self.player2 = Player()
-//    }
-//
-//    func add(_ character: Character, to player : Player){
-//        switch player.id {
-//        case self.player1.id : self.player1.addCharacter(character)
-//        default: self.player2.addCharacter(character)
-//        }
-//    }
-//
-//    func renameCharacter(for player: Player, with id: Int, _ newName: String) -> Bool{
-//        var output : Bool = false
-//        if !nameAlreadyExists(name: newName) {
-//            switch player.id {
-//            case self.player1.id :
-//                player1.renameCharacter(id: id, name: newName)
-//            default :
-//                player2.renameCharacter(id: id, name: newName)
-//            }
-//            output = true
-//        }
-//        return output
-//    }
-//
-//    func nameAlreadyExists(name: String ) -> Bool { // Returns true if name already exists in Player.characters.
-//        var output = false
-//        let characters = self.player1.characters + self.player2.characters
-//        for element in characters {
-//            let alreadyExist = element.name.localizedStandardContains(name) || element.name.localizedStandardContains(name.uppercased()) || element.name.localizedStandardContains(name.lowercased())
-//            if alreadyExist {
-//                output = true
-//                break
-//            } else {
-//                output = false && output
-//            }
-//        }
-//        print("output: \(output)")
-//        return output
-//    }
-//
-//    func allNamesAreUnique() -> Bool {
-//        var output: Bool = false
-//        var names: [String] = []
-//        for element in allCharacters {
-//            names.append(element.name)
-//        }
-//        let set: Set<String> = Set(names)
-//        if set.count  == 6 {
-//            output = true
-//        }
-//        return output
-//    }
-//
-//    static var allCharacters: [Character] = Game.startGame()
-//
-//    static let initialCharacters : [Character] = Game.startGame()
-//
-
