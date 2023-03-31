@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		B8C2AF7A29D6F9D100B47724 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C2AF7929D6F9D100B47724 /* main.swift */; };
+		B8C2AF8129D6FA1000B47724 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C2AF8029D6FA0F00B47724 /* Character.swift */; };
+		B8C2AF8329D6FA4200B47724 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C2AF8229D6FA4200B47724 /* Player.swift */; };
+		B8C2AF8929D6FE8000B47724 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C2AF8829D6FE8000B47724 /* Game.swift */; };
+		B8C2AF8B29D7064000B47724 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C2AF8A29D7064000B47724 /* Constants.swift */; };
+		B8C2AF8D29D706DB00B47724 /* initialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C2AF8C29D706DB00B47724 /* initialization.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +30,11 @@
 /* Begin PBXFileReference section */
 		B8C2AF7629D6F9D100B47724 /* Avengers-Console */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Avengers-Console"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8C2AF7929D6F9D100B47724 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		B8C2AF8029D6FA0F00B47724 /* Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
+		B8C2AF8229D6FA4200B47724 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		B8C2AF8829D6FE8000B47724 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		B8C2AF8A29D7064000B47724 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		B8C2AF8C29D706DB00B47724 /* initialization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = initialization.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,8 +68,29 @@
 			isa = PBXGroup;
 			children = (
 				B8C2AF7929D6F9D100B47724 /* main.swift */,
+				B8C2AF8C29D706DB00B47724 /* initialization.swift */,
+				B8C2AF8A29D7064000B47724 /* Constants.swift */,
+				B8C2AF8729D6FAA700B47724 /* Brain */,
+				B8C2AF8429D6FA7800B47724 /* Model */,
 			);
 			path = "Avengers-Console";
+			sourceTree = "<group>";
+		};
+		B8C2AF8429D6FA7800B47724 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B8C2AF8229D6FA4200B47724 /* Player.swift */,
+				B8C2AF8029D6FA0F00B47724 /* Character.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B8C2AF8729D6FAA700B47724 /* Brain */ = {
+			isa = PBXGroup;
+			children = (
+				B8C2AF8829D6FE8000B47724 /* Game.swift */,
+			);
+			path = Brain;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -120,7 +151,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8C2AF8B29D7064000B47724 /* Constants.swift in Sources */,
 				B8C2AF7A29D6F9D100B47724 /* main.swift in Sources */,
+				B8C2AF8329D6FA4200B47724 /* Player.swift in Sources */,
+				B8C2AF8D29D706DB00B47724 /* initialization.swift in Sources */,
+				B8C2AF8129D6FA1000B47724 /* Character.swift in Sources */,
+				B8C2AF8929D6FE8000B47724 /* Game.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
