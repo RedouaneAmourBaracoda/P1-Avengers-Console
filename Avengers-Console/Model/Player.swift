@@ -38,8 +38,21 @@ class Player {
                 output = false && output
             }
         }
-        print("output \(output)")
         return output
+    }
+    
+    func availableCharacters() -> String { // Returns array of remaining characters selectable by player.
+        var available : [Character] = Characters.allCharacters
+        available.removeAll(where: {self.characterAlreadyPresent(character: $0)})
+        var output : String = ""
+        for character in available {
+            if character.id == available.last?.id {
+                output = output + String(character.id)
+            } else {
+                output = output + String(character.id) + ", "
+            }
+        }
+        return "(" + output + ")"
     }
     
     func renameCharacter(id: Int, name: String){ // Returns true if player can use that name.
@@ -48,6 +61,13 @@ class Player {
                 characters[i].name = name
             }
         }
+    }
+    
+    func showTeam() {
+        print("\(self.name) ", Constant.thisIsYourTeam)
+            for character in self.characters {
+                Characters.showCharacter(character)
+            }
     }
 
 }

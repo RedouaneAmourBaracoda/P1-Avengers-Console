@@ -24,22 +24,21 @@ class Game {
     
     init() {
         currentPlayer = player1
-        
     }
     
     func initializeGame(){
         print(Constant.welcome)
         Characters.displayAllPossibleCharacters()
-        print("Hit enter to continue")
-        let _ = readLine()
+        Constant.hitEnterToContinue()
+        makeAllTeam()
+        showAllTeam()
+    }
+    
+    func makeAllTeam(){
         let players = [player1, player2]
         for player in players {
             currentPlayer = player
             makeTeam(for: player)
-        }
-        let _ = readLine()
-        for element in allCharacters {
-            print(element.name)
         }
     }
     
@@ -47,7 +46,7 @@ class Game {
         while player.characters.count < 3 {
             var validNumber: Bool = false
             repeat {
-                print("\(player.name), please select character with valid number (1, 2, 3 or 4): ")
+                showCurrentSelectionStep(for: player)
                 if let selectedCharacter = readLine() {
                     let selectedCharacterId = Int(selectedCharacter)
                     switch selectedCharacterId{
@@ -64,21 +63,20 @@ class Game {
                         game.add(Characters.doctorStrange.character, for: player)
                         validNumber = true
                     default:
-                        print("You must enter a whole number between 1 and 4 ")
+                        print(Constant.youMustSelectValidNumber)
                         validNumber = false
                     }
                 }
             } while !validNumber
         }
-        showTeam(for: player)
     }
     
     func add(_ character: Character, for player: Player){
             if player.addCharacter(character) {
-                print("Rename this character : ")
+                print(Constant.renameThisCharacter)
                 if var newName = readLine() {
                     while !canRenameCharacter(with: character.id, newName, for: player) || newName == ""{
-                        print("sorry this name is either non-valid or already taken, pick something else: ")
+                        print(Constant.sorryThisNameIsNonValid)
                         newName = readLine() ?? ""
                     }
                 }
@@ -109,18 +107,28 @@ class Game {
         return output
     }
     
-    func showTeam(for player: Player) {
-            print("\(currentPlayer.name), This your team : \n")
-            for character in player.characters {
-                Characters.showCharacter(character)
-            }
-    }
-    
     func changeCurrentPlayer() {
         if currentPlayer.id == player1.id {
             currentPlayer = player2
         } else {
             currentPlayer = player1
+        }
+    }
+    
+    func showAllTeam(){
+        let players = [player1, player2]
+        for player in players {
+            player.showTeam()
+        }
+        Constant.hitEnterToContinue()
+    }
+    
+    func showCurrentSelectionStep(for player: Player){
+        switch player.characters.count {
+        case 0: print("\(player.name)", Constant.selectYourFirstCharacter, player.availableCharacters() )
+        case 1: print("\(player.name)", Constant.selectYourSecondCharacter, player.availableCharacters())
+        case 2: print("\(player.name)", Constant.selectYourThirdCharacter, player.availableCharacters())
+        default: Constant.printError()
         }
     }
 }
