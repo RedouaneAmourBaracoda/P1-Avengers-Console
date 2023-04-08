@@ -12,6 +12,24 @@ class Player {
     var characters : [Character] = []
     var currentCharacter: Character?
     let name : String
+    var isAlive : Bool {
+        var output = true
+        if characters.count == 3 {
+            var aliveCharacters : [Character] = []
+            for character in characters {
+                if !character.isDead {
+                    aliveCharacters.append(character)
+                }
+            }
+            if aliveCharacters.count == 0 || (aliveCharacters.count == 1 && aliveCharacters.contains(where: { character in
+                character.id == Characters.doctorStrange.id
+            })) {
+                output = false
+            }
+        }
+        return output
+    }
+    
     
     init(name: String) {
         self.name = name
@@ -82,32 +100,6 @@ class Player {
                         case .invalid(let invalidNumber):
                             youMustSelectValidCharacter(invalidNumber)
                         }
-//                        switch selectedCharacterId {
-//                        case self.characters[0].id:
-//                            if !self.characters[0].isDead {
-//                                self.currentCharacter = self.characters[0]
-//                                validNumber = true
-//                            } else {
-//                                validNumber = false
-//                            }
-//                        case self.characters[1].id:
-//                            if !self.characters[1].isDead {
-//                                self.currentCharacter = self.characters[1]
-//                                validNumber = true
-//                            } else {
-//                                validNumber = false
-//                            }
-//                        case self.characters[2].id:
-//                            if !self.characters[2].isDead {
-//                                self.currentCharacter = self.characters[2]
-//                                validNumber = true
-//                            } else {
-//                                validNumber = false
-//                            }
-//                        default:
-//                            self.youMustSelectValidCharacter()
-//                            validNumber = false
-//                        }
                     }
             } while validNumber == .invalid(.outOfBound) || validNumber == .invalid(.characterIsDead)
     }
@@ -145,10 +137,7 @@ class Player {
         
     }
     
-    
-    
-    
-    
+
     // MARK: - Player initialization
 
     func addCharacter(_ character: Character) -> Bool{

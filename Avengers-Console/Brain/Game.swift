@@ -20,7 +20,7 @@ class Game {
     // MARK: - MainFight
     func mainFight() {
         designatePlayers()
-        for _ in 0...2 {
+        while player1.isAlive && player2.isAlive  {
             currentPlayerAttacking.selectCharacterAttacking()
             guard let safeCharacter = currentPlayerAttacking.currentCharacter else { return print("ERROR") }
             switch safeCharacter.id {
@@ -29,12 +29,14 @@ class Game {
                 default: // Player chose to attack.
                     selectCharacterToBeAttacked(for: currentPlayerBeeingAttacked)
                     currentPlayerAttacking.attack(currentPlayerBeeingAttacked)
-                    
             }
             Constant.hitEnterToContinue()
             showAllTeam()
-            swapCurrentPlayers()
+            if player1.isAlive && player2.isAlive {
+                swapCurrentPlayers()
+            }
         }
+        print("                                                       GAME OVER.")
     }
     
     func designatePlayers(){
@@ -47,17 +49,31 @@ class Game {
             currentPlayerAttacking = player2
             currentPlayerBeeingAttacked = player1
         }
-        print("\(currentPlayerAttacking.name) you have been designated to start attacking. ")
+        print(" 🛂 \(currentPlayerAttacking.name) you have been designated to start attacking. ", terminator: "")
     }
     
     func selectCharacterToBeAttacked(for player: Player){
-        print(currentPlayerAttacking.name, " Choose a character to attack in other team ?")
+        print(currentPlayerAttacking.name, " Choose a character to attack in other team ?\n")
         player.showTeam()
         player.selectCharacter()
     }
     
 
     // MARK: - Initialization
+    
+    func generalInitialize(_ initialize: Initialize){
+        print(Constant.welcome)
+        Characters.displayAllPossibleCharacters()
+        Constant.hitEnterToContinue()
+        switch initialize {
+        case .autoInitialize:
+            autoInitialize()
+        case .initializeForReal:
+            initializeGame()
+        case .initializeWithAttakersOnly:
+            initializeWithAttackersOnly()
+        }
+    }
     
     func initializeGame(){
         print(Constant.welcome)
@@ -84,6 +100,27 @@ class Game {
             let id = Int.random(in: 0...3)
             if !player2.characterAlreadyPresent(character: Characters.allCases[id].character) {
                 player2.characters.append(Characters.allCases[id].character)
+                counter += 1
+            }
+        }
+        showAllTeam()
+    }
+    
+    func initializeWithAttackersOnly() {
+        print(Constant.welcome)
+        Characters.displayAllPossibleCharacters()
+        Constant.hitEnterToContinue()
+        var counter = 0
+        for character in Characters.allCases {
+            if counter < 3 {
+                player1.characters.append(character.character)
+                counter += 1
+            }
+        }
+        counter = 0
+        for character in Characters.allCases {
+            if counter < 3 {
+                player2.characters.append(character.character)
                 counter += 1
             }
         }
@@ -148,7 +185,7 @@ class Game {
         return output
     }
     
-    func nameAlreadyExists(name: String ) -> Bool { // Returns true if name already exists in Player.characters.
+    func nameAlreadyExists(name: String) -> Bool { // Returns true if name already exists in player.characters.
         var output = false
         let characters = player1.characters + player2.characters
         for element in characters {

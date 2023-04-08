@@ -8,8 +8,13 @@
 import Foundation
 
 
+enum Initialize {
+    case autoInitialize
+    case initializeForReal
+    case initializeWithAttakersOnly
+}
+
 let game = Game()
-//game.initializeGame()
-game.autoInitialize()
+game.generalInitialize(.initializeForReal)
 game.mainFight()
 
