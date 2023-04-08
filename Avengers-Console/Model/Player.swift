@@ -29,6 +29,7 @@ class Player {
         print("\(self.name) select a character to heal: ", terminator: "")
         self.selectCharacter()
         self.heal()
+        self.updateCharacter()
     }
     
     func attack(_ player: Player){
@@ -70,8 +71,10 @@ class Player {
                                     break
                                 } else {
                                     validNumber = .invalid(.characterIsDead)
+                                    break
                                 }
                             }
+                            validNumber = .invalid(.outOfBound)
                         }
                         switch validNumber {
                         case .valid:
@@ -119,7 +122,6 @@ class Player {
         }
     }
     
-    
     func youMustSelectValidCharacter(_ invalidNumber: InvalidNumber ){
         let characters = self.characters
         var string = "("
@@ -133,10 +135,14 @@ class Player {
             }
         }
         switch invalidNumber {
-        case .characterIsDead : print("🪦 Sorry this character is not alive anymore 🪦. May he rest in peace 👼🏻.", terminator: "")
-        case .outOfBound: print("Sorry this number is out of bounds.")
+        case .characterIsDead :
+            print("🪦 Sorry this character is not alive anymore 🪦. May he rest in peace 👼🏻.", terminator: "")
+            print(" You can only select alive character -> ", string)
+        case .outOfBound:
+            print("Sorry this number is out of bounds.", terminator: "")
+            print(" You can only select valid character -> ", string)
         }
-        print(" You can only select valid and alive character -> ", string)
+        
     }
     
     

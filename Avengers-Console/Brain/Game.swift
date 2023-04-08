@@ -10,16 +10,6 @@ import Foundation
 class Game {
     private var player1: Player = Player(name: "Team 1")
     private var player2: Player = Player(name: "Team 2")
-    private var allCharacters: [Character] {
-        var output : [Character] = []
-        let allPlayers : [Player] = [player1, player2]
-        for player in allPlayers {
-            for character in player.characters {
-                output.append(character)
-            }
-        }
-        return output
-    }
     private var currentPlayerAttacking: Player
     private var currentPlayerBeeingAttacked: Player
     init() {
@@ -30,28 +20,21 @@ class Game {
     // MARK: - MainFight
     func mainFight() {
         designatePlayers()
-        
         for _ in 0...2 {
             currentPlayerAttacking.selectCharacterAttacking()
             guard let safeCharacter = currentPlayerAttacking.currentCharacter else { return print("ERROR") }
             switch safeCharacter.id {
                 case Characters.doctorStrange.id : // Player choose to heal.
                     currentPlayerAttacking.selectCharacterToHeal()
-                    currentPlayerAttacking.updateCharacter()
-                
-                    
                 default: // Player chose to attack.
                     selectCharacterToBeAttacked(for: currentPlayerBeeingAttacked)
                     currentPlayerAttacking.attack(currentPlayerBeeingAttacked)
-                //currentPlayerBeeingAttacked.updateCharacter()
                     
             }
             Constant.hitEnterToContinue()
             showAllTeam()
             swapCurrentPlayers()
-        } //while playerAlive
-        
-//        displayResult()
+        }
     }
     
     func designatePlayers(){
@@ -89,16 +72,18 @@ class Game {
         Characters.displayAllPossibleCharacters()
         Constant.hitEnterToContinue()
         var counter = 0
-        for character in Characters.allCases {
-            if counter < 3 {
-                player1.characters.append(character.character)
+        while (counter < 3) {
+            let id = Int.random(in: 0...3)
+            if !player1.characterAlreadyPresent(character: Characters.allCases[id].character) {
+                player1.characters.append(Characters.allCases[id].character)
                 counter += 1
             }
         }
         counter = 0
-        for character in Characters.allCases {
-            if counter < 3 {
-                player2.characters.append(character.character)
+        while (counter < 3) {
+            let id = Int.random(in: 0...3)
+            if !player2.characterAlreadyPresent(character: Characters.allCases[id].character) {
+                player2.characters.append(Characters.allCases[id].character)
                 counter += 1
             }
         }
