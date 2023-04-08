@@ -36,7 +36,19 @@ class Game {
                 swapCurrentPlayers()
             }
         }
-        print("                                                       GAME OVER.")
+        print("                                                       GAME OVER.\n")
+        print("\n")
+        print("\n")
+        print("\n")
+        displayWinner()
+    }
+    
+    func displayWinner() {
+        if player1.isAlive {
+            print("PLAYER 1 IS THE WINNER")
+        } else {
+            print("PLAYER 2 IS THE WINNER")
+        }
     }
     
     func designatePlayers(){

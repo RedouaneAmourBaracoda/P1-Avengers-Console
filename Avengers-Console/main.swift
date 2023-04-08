@@ -15,6 +15,6 @@ enum Initialize {
 }
 
 let game = Game()
-game.generalInitialize(.initializeForReal)
+game.generalInitialize(.autoInitialize)
 game.mainFight()
 
