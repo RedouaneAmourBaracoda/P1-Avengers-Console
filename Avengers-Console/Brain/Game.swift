@@ -20,11 +20,61 @@ class Game {
         }
         return output
     }
-    private var currentPlayer: Player
-    
+    private var currentPlayerAttacking: Player
+    private var currentPlayerBeeingAttacked: Player
     init() {
-        currentPlayer = player1
+        self.currentPlayerAttacking = player1
+        self.currentPlayerBeeingAttacked = player2
     }
+    
+    // MARK: - MainFight
+    func mainFight() {
+        designatePlayers()
+        
+        for _ in 0...2 {
+            currentPlayerAttacking.selectCharacterAttacking()
+            guard let safeCharacter = currentPlayerAttacking.currentCharacter else { return print("ERROR") }
+            switch safeCharacter.id {
+                case Characters.doctorStrange.id : // Player choose to heal.
+                    currentPlayerAttacking.selectCharacterToHeal()
+                    currentPlayerAttacking.updateCharacter()
+                
+                    
+                default: // Player chose to attack.
+                    selectCharacterToBeAttacked(for: currentPlayerBeeingAttacked)
+                    currentPlayerAttacking.attack(currentPlayerBeeingAttacked)
+                //currentPlayerBeeingAttacked.updateCharacter()
+                    
+            }
+            Constant.hitEnterToContinue()
+            showAllTeam()
+            swapCurrentPlayers()
+        } //while playerAlive
+        
+//        displayResult()
+    }
+    
+    func designatePlayers(){
+        let bool = Bool.random()
+        switch bool {
+        case true:
+            currentPlayerAttacking = player1
+            currentPlayerBeeingAttacked = player2
+        case false:
+            currentPlayerAttacking = player2
+            currentPlayerBeeingAttacked = player1
+        }
+        print("\(currentPlayerAttacking.name) you have been designated to start attacking. ")
+    }
+    
+    func selectCharacterToBeAttacked(for player: Player){
+        print(currentPlayerAttacking.name, " Choose a character to attack in other team ?")
+        player.showTeam()
+        player.selectCharacter()
+    }
+    
+
+    // MARK: - Initialization
     
     func initializeGame(){
         print(Constant.welcome)
@@ -34,10 +84,30 @@ class Game {
         showAllTeam()
     }
     
+    func autoInitialize(){
+        print(Constant.welcome)
+        Characters.displayAllPossibleCharacters()
+        Constant.hitEnterToContinue()
+        var counter = 0
+        for character in Characters.allCases {
+            if counter < 3 {
+                player1.characters.append(character.character)
+                counter += 1
+            }
+        }
+        counter = 0
+        for character in Characters.allCases {
+            if counter < 3 {
+                player2.characters.append(character.character)
+                counter += 1
+            }
+        }
+        showAllTeam()
+    }
+    
     func makeAllTeam(){
         let players = [player1, player2]
         for player in players {
-            currentPlayer = player
             makeTeam(for: player)
         }
     }
@@ -73,13 +143,14 @@ class Game {
     
     func add(_ character: Character, for player: Player){
             if player.addCharacter(character) {
-                print(Constant.renameThisCharacter)
+                print(Constant.renameThisCharacter, terminator: "")
                 if var newName = readLine() {
-                    while !canRenameCharacter(with: character.id, newName, for: player) || newName == ""{
-                        print(Constant.sorryThisNameIsNonValid)
+                    while !canRenameCharacter(with: character.id, newName, for: player) || newName == "" {
+                        print(Constant.sorryThisNameIsNonValid, terminator: "")
                         newName = readLine() ?? ""
                     }
                 }
+                print("\n")
             }
     }
     
@@ -107,27 +178,41 @@ class Game {
         return output
     }
     
-    func changeCurrentPlayer() {
-        if currentPlayer.id == player1.id {
-            currentPlayer = player2
+    func swapCurrentPlayers() {
+        print(" 🛂 \(currentPlayerBeeingAttacked.name) becomes now atacking team. ", terminator: "")
+        if currentPlayerAttacking.id == player1.id {
+            currentPlayerAttacking = player2
         } else {
-            currentPlayer = player1
+            currentPlayerAttacking = player1
+        }
+        if currentPlayerBeeingAttacked.id == player1.id {
+            currentPlayerBeeingAttacked = player2
+        } else {
+            currentPlayerBeeingAttacked = player1
         }
     }
     
     func showAllTeam(){
+        print("\n")
+        print("\n")
+        print("\n")
+        print("                                                      GAME RECAP ")
+        print("\n")
         let players = [player1, player2]
         for player in players {
             player.showTeam()
         }
         Constant.hitEnterToContinue()
+        print("\n")
+        print("\n")
     }
     
     func showCurrentSelectionStep(for player: Player){
         switch player.characters.count {
-        case 0: print("\(player.name)", Constant.selectYourFirstCharacter, player.availableCharacters() )
-        case 1: print("\(player.name)", Constant.selectYourSecondCharacter, player.availableCharacters())
-        case 2: print("\(player.name)", Constant.selectYourThirdCharacter, player.availableCharacters())
+        case 0:
+            print("\(player.name)", Constant.selectYourFirstCharacter, player.availableCharacters(), terminator: "" )
+        case 1: print("\(player.name)", Constant.selectYourSecondCharacter, player.availableCharacters(), terminator: "")
+        case 2: print("\(player.name)", Constant.selectYourThirdCharacter, player.availableCharacters(), terminator: "")
         default: Constant.printError()
         }
     }

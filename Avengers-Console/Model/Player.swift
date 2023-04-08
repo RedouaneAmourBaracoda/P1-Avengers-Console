@@ -10,11 +10,140 @@ import Foundation
 class Player {
     let id = UUID()
     var characters : [Character] = []
+    var currentCharacter: Character?
     let name : String
     
     init(name: String) {
         self.name = name
     }
+    
+    // MARK: - Player MainFight
+    
+    
+    func selectCharacterAttacking(){
+        print("\(self.name) select a character for attacking: ", terminator: "")
+        self.selectCharacter()
+    }
+    
+    func selectCharacterToHeal(){
+        print("\(self.name) select a character to heal: ", terminator: "")
+        self.selectCharacter()
+        self.heal()
+    }
+    
+    func attack(_ player: Player){
+        guard let _ = player.currentCharacter, let _ = self.currentCharacter else { return
+            print("there was an error while attacking: one of the players has his current character not initialized.")
+        }
+        player.currentCharacter?.life -= (self.currentCharacter?.weapon.strengh)!
+        print(self.currentCharacter!.name, " used his ", self.currentCharacter!.weapon.name, self.currentCharacter!.weapon.emoji, "to attack ", player.currentCharacter!.name, " who has lost ", self.currentCharacter!.weapon.strengh, " life points ")
+        player.updateCharacter()
+    }
+    
+    func heal() {
+        guard let _ = self.currentCharacter else { return
+            print("there was an error while attacking: one of the players has his current character not initialized.")
+        }
+        self.currentCharacter?.life += Characters.doctorStrange.weapon.strengh
+        print(self.currentCharacter!.name, " was healed and now has a life of ", self.currentCharacter!.life, " life points ")
+    }
+    
+    enum InvalidNumber {
+        case outOfBound
+        case characterIsDead
+    }
+    enum SelectedNumber: Equatable {
+        case valid
+        case invalid(InvalidNumber)
+    }
+
+    func selectCharacter(){
+        var validNumber: SelectedNumber = .invalid(.outOfBound)
+            repeat {
+                    if let selectedCharacter = readLine() {
+                        let selectedCharacterId = Int(selectedCharacter)
+                        for character in characters {
+                            if character.id == selectedCharacterId {
+                                if !character.isDead {
+                                    self.currentCharacter = character
+                                    validNumber = .valid
+                                    break
+                                } else {
+                                    validNumber = .invalid(.characterIsDead)
+                                }
+                            }
+                        }
+                        switch validNumber {
+                        case .valid:
+                            break
+                        case .invalid(let invalidNumber):
+                            youMustSelectValidCharacter(invalidNumber)
+                        }
+//                        switch selectedCharacterId {
+//                        case self.characters[0].id:
+//                            if !self.characters[0].isDead {
+//                                self.currentCharacter = self.characters[0]
+//                                validNumber = true
+//                            } else {
+//                                validNumber = false
+//                            }
+//                        case self.characters[1].id:
+//                            if !self.characters[1].isDead {
+//                                self.currentCharacter = self.characters[1]
+//                                validNumber = true
+//                            } else {
+//                                validNumber = false
+//                            }
+//                        case self.characters[2].id:
+//                            if !self.characters[2].isDead {
+//                                self.currentCharacter = self.characters[2]
+//                                validNumber = true
+//                            } else {
+//                                validNumber = false
+//                            }
+//                        default:
+//                            self.youMustSelectValidCharacter()
+//                            validNumber = false
+//                        }
+                    }
+            } while validNumber == .invalid(.outOfBound) || validNumber == .invalid(.characterIsDead)
+    }
+    
+    func updateCharacter(){
+        guard let safeCharacter = currentCharacter, characters.count > 0 else { return print("ERROR")}
+        for index in 0...characters.count - 1 {
+            if safeCharacter.id == characters[index].id {
+                characters[index] = safeCharacter
+                characters[index].die() // Only if no more life.
+            }
+        }
+    }
+    
+    
+    func youMustSelectValidCharacter(_ invalidNumber: InvalidNumber ){
+        let characters = self.characters
+        var string = "("
+        for character in characters {
+            if !character.isDead {
+                if character.id == characters.last?.id {
+                    string.append(String(character.id) + ")")
+                } else {
+                    string.append(String(character.id) + ", ")
+                }
+            }
+        }
+        switch invalidNumber {
+        case .characterIsDead : print("🪦 Sorry this character is not alive anymore 🪦. May he rest in peace 👼🏻.", terminator: "")
+        case .outOfBound: print("Sorry this number is out of bounds.")
+        }
+        print(" You can only select valid and alive character -> ", string)
+    }
+    
+    
+    
+    
+    
+    // MARK: - Player initialization
 
     func addCharacter(_ character: Character) -> Bool{
         var output = false
@@ -52,7 +181,7 @@ class Player {
                 output = output + String(character.id) + ", "
             }
         }
-        return "(" + output + ")"
+        return "(" + output + "): "
     }
     
     func renameCharacter(id: Int, name: String){ // Returns true if player can use that name.
@@ -64,10 +193,9 @@ class Player {
     }
     
     func showTeam() {
-        print("\(self.name) ", Constant.thisIsYourTeam)
+        print("\(self.name)")
             for character in self.characters {
                 Characters.showCharacter(character)
             }
     }
-
 }

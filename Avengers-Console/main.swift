@@ -9,5 +9,7 @@ import Foundation
 
 
 let game = Game()
-game.initializeGame()
+//game.initializeGame()
+game.autoInitialize()
+game.mainFight()
 

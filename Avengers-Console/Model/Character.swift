@@ -10,9 +10,16 @@ import Foundation
 struct Character {
     var name: String
     var life: Float
-    let weapon: Weapon
+    var isDead: Bool {
+        if life <= 0.0 {
+            return true
+        } else {
+            return false
+        }
+    }
+    var weapon: Weapon
     let image : String
-    let description: String
+    var description: String
     let id: Int
     
     init(name: String, life: Float, weapon: Weapon, image: String, description: String, id: Int) {
@@ -28,15 +35,23 @@ struct Character {
         self.name = rename
     }
     
-//    mutating func attacked (by character: Character) {
-//        self.life -= character.weapon
-//    }
+    mutating func die(){
+        if self.isDead {
+            print("☠️☠️☠️☠️☠️☠️☠️☠️☠️☠️  \(self.name) is now dead. ☠️☠️☠️☠️☠️☠️☠️☠️☠️☠️")
+            self.description = "☠️☠️☠️☠️☠️☠️☠️☠️☠️☠️"
+            self.name += " ☠️☠️☠️☠️☠️☠️☠️☠️"
+            self.life = 0.0
+            self.weapon.strengh = 0.0
+            self.weapon.name = "☠️☠️☠️☠️☠️☠️☠️"
+            self.weapon.emoji = "☠️☠️☠️☠️☠️☠️☠️"
+        }
+    }
 }
 
 struct Weapon {
-    let name: String
-    let strengh: Float
-    let emoji: String
+    var name: String
+    var strengh: Float
+    var emoji: String
 }
 
 //******************************* Model d'initialisation des 4 personnages *************************************
@@ -57,7 +72,7 @@ enum Characters: CaseIterable {
         print(
             "-- \(character.id): \(character.name), ",
             "life: \(character.life), ",
-            "weapon: \(character.weapon.name)\(character.weapon.emoji) with", "strengh: \(character.weapon.strengh), ",
+            "weapon: \(character.weapon.name) \(character.weapon.emoji) with", "strengh: \(character.weapon.strengh), ",
             "description: \(character.description)\n"
             )
     }
@@ -127,24 +142,24 @@ enum Characters: CaseIterable {
     var description: String {
         switch self {
         case .captain:
-            return "Thoughest defender with a strongly resistent shield made of vibranium."
+            return "Thoughest defender with a strongly resistent shield."
         case .thor:
-            return "Thunder master with powerful lightning strike, his hammer can severely kill you."
+            return "Thunder master with powerful Hammer strike."
         case .thanos:
-            return "Thanos is the most dangerous evil creature ever made, almost unbeatable."
+            return "Thanos is the most dangerous evil creature ever made."
         case .doctorStrange:
-            return "Greatest healing power, doctor strange has the ability to resuscitate."
+            return "Greatest healing power, ability to resuscitate."
         }
     }
     
     var startingLife: Float {
         switch self {
         case .captain:
-            return 80.0
-        case .thor:
-            return 60.0
-        case .thanos:
             return 50.0
+        case .thor:
+            return 45.0
+        case .thanos:
+            return 40.0
         case .doctorStrange:
             return 90.0
         }
@@ -153,11 +168,11 @@ enum Characters: CaseIterable {
     var weapon: Weapon {
         switch self {
         case .captain:
-            return Weapon(name: "Shield", strengh: 30.0, emoji: "🛡️")
+            return Weapon(name: "Shield", strengh: 50.0, emoji: "🛡️")
         case .thor:
-            return Weapon(name: "Thunder", strengh: 50.0, emoji: "⚡️")
+            return Weapon(name: "Thunder", strengh: 60.0, emoji: "⚡️")
         case .thanos:
-            return Weapon(name: "Ring", strengh: 55.0, emoji: "💍")
+            return Weapon(name: "Ring", strengh: 70.0, emoji: "💍")
         case .doctorStrange:
             return Weapon(name: "Apple care", strengh: 20.0, emoji: "🚑")
         }
