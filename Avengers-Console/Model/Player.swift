@@ -46,7 +46,7 @@ final class Player {
     
     func selectAttackingCharacter(){
         print("\(self.name)", Constant.selectCharacterForAttacking, terminator: "")
-        self.selectCharacter()
+        self.selectCharacterForMainFight()
         if let safeCurrentCharacter = self.currentCharacter {
             print(" 👉🏻 \(self.name) selected \(safeCurrentCharacter.name).")
             print("\n")
@@ -64,7 +64,7 @@ final class Player {
     
     func selectCharacterToHeal(){
         print("\(self.name)", Constant.selectCharacterToHeal, terminator: "")
-        self.selectCharacter()
+        self.selectCharacterForMainFight()
         self.heal()
         self.updateCharacter()
     }
@@ -95,23 +95,94 @@ final class Player {
     }
 
     // MARK: - Player initialization
+    
+    
+    func makeTeam(){
+        while characters.count < Player.maxCharactersPerTeam {
+            selectCharacterForInitialization()
+        }
+    }
+    private func selectCharacterForInitialization(){
+        var validNumber: Bool = false
+        repeat {
+            showCurrentSelectionStep()
+            if let selectedCharacter = readLine() {
+                let selectedCharacterId = Int(selectedCharacter)
+                switch selectedCharacterId {
+                case Characters.captain.id:
+                    addCharacter(Characters.captain.character)
+                    validNumber = true
+                case Characters.thor.id:
+                    addCharacter(Characters.thor.character)
+                    validNumber = true
+                case Characters.thanos.id:
+                    addCharacter(Characters.thanos.character)
+                    validNumber = true
+                case Characters.doctorStrange.id :
+                    addCharacter(Characters.doctorStrange.character)
+                    validNumber = true
+                default:
+                    print(Constant.youMustSelectValidNumber)
+                    validNumber = false
+                }
+            }
+        } while !validNumber
+    }
 
-    func addCharacter(_ character: Character) -> Bool {
-        var output = false
+    func addCharacter(_ character: Character){
         if  self.characters.count < Player.maxCharactersPerTeam && !characterAlreadyPresent(character: character){
             characters.append(character)
-            output = true
+            renameCharacter(id: character.id)
         } else {
             print(Constant.youAlreadySelectedThisCharacter)
-            output = false
         }
-        return output
     }
+    
     
     func characterAlreadyPresent(character: Character) -> Bool { // Returns true if character has already been selected in characters.
         var output = false
         for element in self.characters {
             if element.id == character.id {
+                output = true
+                break
+            } else {
+                output = false && output
+            }
+        }
+        return output
+    }
+    
+    func renameCharacter(id: Int){
+        Constant.displayRenameCharacter()
+        if var newName = readLine() {
+            while !canRenameCharacter(with: id, newName) || newName == "" {
+                print(Constant.sorryThisNameIsNonValid, terminator: "")
+                newName = readLine() ?? ""
+            }
+        }
+    }
+    
+    private func canRenameCharacter(with id: Int, _ newName: String) -> Bool {
+        var output : Bool = false
+        if !nameAlreadyExists(name: newName) {
+            output = true
+            Constant.skipLines(1)
+            for i in characters.indices {
+                if characters[i].id == id {
+                    characters[i].renamed(newName)
+                    Game.allCharacters.append(characters[i])
+                    Characters.showCharacter(characters[i])
+                }
+            }
+        }
+        return output
+    }
+    
+    private func nameAlreadyExists(name: String) -> Bool { // Returns true if name already exists in Game.allCharacters
+        var output = false
+        for element in Game.allCharacters {
+            let alreadyExist = element.name.localizedStandardContains(name) || element.name.localizedStandardContains(name.uppercased()) || element.name.localizedStandardContains(name.lowercased())
+            if alreadyExist {
                 output = true
                 break
             } else {
@@ -145,14 +216,6 @@ final class Player {
         return "(" + output + "): "
     }
     
-    func renameCharacter(id: Int, name: String){ // Returns true if player can use that name.
-        for i in characters.indices {
-            if characters[i].id == id {
-                characters[i].name = name
-            }
-        }
-    }
-    
     func showTeam() {
         print("\(self.name)")
             for character in self.characters {
@@ -164,34 +227,35 @@ final class Player {
 extension Player {
     
     static let maxCharactersPerTeam = 3
-    
-    enum InvalidNumber {
-        case outOfBound
-        case characterIsDead
-    }
+
     enum SelectedNumber: Equatable {
         case valid
         case invalid(InvalidNumber)
+        
+        enum InvalidNumber {
+            case outOfBound
+            case characterIsDead
+        }
     }
     
-    func selectCharacter(){
+    func selectCharacterForMainFight(){
         var validNumber: SelectedNumber = .invalid(.outOfBound)
             repeat {
                     if let selectedCharacter = readLine() {
                         let selectedCharacterId = Int(selectedCharacter)
-                        for character in characters {
-                            if character.id == selectedCharacterId {
-                                if !character.isDead {
-                                    self.currentCharacter = character
-                                    validNumber = .valid
-                                    break
-                                } else {
-                                    validNumber = .invalid(.characterIsDead)
-                                    break
+                            for character in characters {
+                                if character.id == selectedCharacterId {
+                                    if !character.isDead {
+                                        self.currentCharacter = character
+                                        validNumber = .valid
+                                        break
+                                    } else {
+                                        validNumber = .invalid(.characterIsDead)
+                                        break
+                                    }
                                 }
+                                validNumber = .invalid(.outOfBound)
                             }
-                            validNumber = .invalid(.outOfBound)
-                        }
                         switch validNumber {
                         case .valid:
                             break
@@ -204,7 +268,7 @@ extension Player {
     
     
     
-    func youMustSelectValidCharacter(_ invalidNumber: InvalidNumber ){
+    func youMustSelectValidCharacter(_ invalidNumber: SelectedNumber.InvalidNumber){
         let characters = self.characters
         var string = "("
         for character in characters {

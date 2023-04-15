@@ -19,7 +19,7 @@ enum Initialize {
 // Insérer dans la présentation les aspects pris en compte pour ce projet : GitHub, Single responsability principle, MVC Architecture, Swiftlint, protocole, extension.
 
 let game = Game()
-game.generalInitialize(.autoInitialize)
+game.generalInitialize(.initializeForReal)
 game.mainFight()
 game.displayResults()
 

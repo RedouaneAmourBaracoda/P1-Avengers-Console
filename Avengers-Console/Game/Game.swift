@@ -15,6 +15,7 @@ final class Game {
     private var currentAttacker: Player
     private var currentTarget: Player
     private var round : Int = 1
+    static var allCharacters : [Character] = []
     
     // MARK: - init()
     
@@ -88,7 +89,7 @@ final class Game {
     private func selectCharacterToBeAttacked(){
         Constant.displayChooseCharacterInOtherTeam(currentAttacker)
         currentTarget.showTeam()
-        currentTarget.selectCharacter()
+        currentTarget.selectCharacterForMainFight()
     }
     
 
@@ -116,74 +117,8 @@ final class Game {
     private func makeAllTeam(){
         let players = [player1, player2]
         for player in players {
-            makeTeam(for: player)
+            player.makeTeam()
         }
-    }
-    
-    private func makeTeam(for player: Player){
-        while player.characters.count < Player.maxCharactersPerTeam {
-            var validNumber: Bool = false
-            repeat {
-                player.showCurrentSelectionStep()
-                if let selectedCharacter = readLine() {
-                    let selectedCharacterId = Int(selectedCharacter)
-                    switch selectedCharacterId {
-                    case Characters.captain.id:
-                        game.add(Characters.captain.character, for: player)
-                        validNumber = true
-                    case Characters.thor.id:
-                        game.add(Characters.thor.character, for: player)
-                        validNumber = true
-                    case Characters.thanos.id:
-                        game.add(Characters.thanos.character, for: player)
-                        validNumber = true
-                    case Characters.doctorStrange.id :
-                        game.add(Characters.doctorStrange.character, for: player)
-                        validNumber = true
-                    default:
-                        print(Constant.youMustSelectValidNumber)
-                        validNumber = false
-                    }
-                }
-            } while !validNumber
-        }
-    }
-    
-    private func add(_ character: Character, for player: Player){
-            if player.addCharacter(character) {
-                Constant.displayRenameCharacter()
-                if var newName = readLine() {
-                    while !canRenameCharacter(with: character.id, newName, for: player) || newName == "" {
-                        print(Constant.sorryThisNameIsNonValid, terminator: "")
-                        newName = readLine() ?? ""
-                    }
-                }
-                Constant.skipLines(1)
-            }
-    }
-    
-    private func canRenameCharacter(with id: Int, _ newName: String, for player: Player) -> Bool{
-        var output : Bool = false
-        if !nameAlreadyExists(name: newName) {
-            player.renameCharacter(id: id, name: newName)
-            output = true
-        }
-        return output
-    }
-    
-    private func nameAlreadyExists(name: String) -> Bool { // Returns true if name already exists in player.characters.
-        var output = false
-        let characters = player1.characters + player2.characters
-        for element in characters {
-            let alreadyExist = element.name.localizedStandardContains(name) || element.name.localizedStandardContains(name.uppercased()) || element.name.localizedStandardContains(name.lowercased())
-            if alreadyExist {
-                output = true
-                break
-            } else {
-                output = false && output
-            }
-        }
-        return output
     }
     
     private func swapCurrentPlayers() {

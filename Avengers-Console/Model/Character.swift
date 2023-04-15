@@ -32,6 +32,10 @@ struct Character { // modification des proprietes ici : single responsability.
         self.id = id
     }
     
+    mutating func renamed(_ newName: String) {
+        self.name = newName
+    }
+    
     mutating func decreaseLife(by weaponStrengh: Float){
         self.life -= weaponStrengh
     }
