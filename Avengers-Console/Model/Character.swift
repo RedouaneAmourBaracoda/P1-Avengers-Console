@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct Character {
+struct Character { // modification des proprietes ici : single responsability.
+    // pourquoi utiliser des variables statiques.
     var name: String
     var life: Float
     var isDead: Bool {
@@ -29,6 +30,10 @@ struct Character {
         self.image = image
         self.description = description
         self.id = id
+    }
+    
+    mutating func decreaseLife(by weaponStrengh: Float){
+        self.life -= weaponStrengh
     }
     
     mutating func renameCharacter(_ rename: String){
@@ -54,13 +59,15 @@ struct Weapon {
     var emoji: String
 }
 
-//******************************* Model d'initialisation des 4 personnages *************************************
+//******************************* INITIALIZATION MODEL FOR CHARACTERS *************************************
 
-enum Characters: CaseIterable {
+enum Characters: CaseIterable { // question possible : pq l'enum ? -> erreur de saisie impossible avec autocompletion. et concision. pas de plantage possible. Justifier le CaseIterable: parcourir tous les caracteres possibles. Boite à outil réutilisable.
     case captain
     case thor
     case thanos
     case doctorStrange
+    
+    static let maxLife: Float = 100.0
     
     static func displayAllPossibleCharacters(){
         for character in allCharacters {
@@ -148,7 +155,7 @@ enum Characters: CaseIterable {
         case .thanos:
             return "Thanos is the most dangerous evil creature ever made."
         case .doctorStrange:
-            return "Greatest healing power, ability to resuscitate."
+            return "Greatest healing power, ability to boost life up."
         }
     }
     
@@ -174,8 +181,7 @@ enum Characters: CaseIterable {
         case .thanos:
             return Weapon(name: "Ring", strengh: 70.0, emoji: "💍")
         case .doctorStrange:
-            return Weapon(name: "Apple care", strengh: 20.0, emoji: "🚑")
+            return Weapon(name: "Care", strengh: 20.0, emoji: "🚑")
         }
     }
 }
-

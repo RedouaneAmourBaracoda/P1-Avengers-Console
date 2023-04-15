@@ -12,7 +12,6 @@
 		B8C2AF8329D6FA4200B47724 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C2AF8229D6FA4200B47724 /* Player.swift */; };
 		B8C2AF8929D6FE8000B47724 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C2AF8829D6FE8000B47724 /* Game.swift */; };
 		B8C2AF8B29D7064000B47724 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C2AF8A29D7064000B47724 /* Constants.swift */; };
-		B8C2AF8D29D706DB00B47724 /* initialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C2AF8C29D706DB00B47724 /* initialization.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -34,7 +33,6 @@
 		B8C2AF8229D6FA4200B47724 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		B8C2AF8829D6FE8000B47724 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		B8C2AF8A29D7064000B47724 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		B8C2AF8C29D706DB00B47724 /* initialization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = initialization.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +46,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B8BFDC0829E98D220073472C /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				B8C2AF7929D6F9D100B47724 /* main.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
 		B8C2AF6D29D6F9D100B47724 = {
 			isa = PBXGroup;
 			children = (
@@ -67,10 +73,8 @@
 		B8C2AF7829D6F9D100B47724 /* Avengers-Console */ = {
 			isa = PBXGroup;
 			children = (
-				B8C2AF7929D6F9D100B47724 /* main.swift */,
-				B8C2AF8C29D706DB00B47724 /* initialization.swift */,
-				B8C2AF8A29D7064000B47724 /* Constants.swift */,
-				B8C2AF8729D6FAA700B47724 /* Brain */,
+				B8BFDC0829E98D220073472C /* Main */,
+				B8C2AF8729D6FAA700B47724 /* Game */,
 				B8C2AF8429D6FA7800B47724 /* Model */,
 			);
 			path = "Avengers-Console";
@@ -85,12 +89,13 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		B8C2AF8729D6FAA700B47724 /* Brain */ = {
+		B8C2AF8729D6FAA700B47724 /* Game */ = {
 			isa = PBXGroup;
 			children = (
 				B8C2AF8829D6FE8000B47724 /* Game.swift */,
+				B8C2AF8A29D7064000B47724 /* Constants.swift */,
 			);
-			path = Brain;
+			path = Game;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -154,7 +159,6 @@
 				B8C2AF8B29D7064000B47724 /* Constants.swift in Sources */,
 				B8C2AF7A29D6F9D100B47724 /* main.swift in Sources */,
 				B8C2AF8329D6FA4200B47724 /* Player.swift in Sources */,
-				B8C2AF8D29D706DB00B47724 /* initialization.swift in Sources */,
 				B8C2AF8129D6FA1000B47724 /* Character.swift in Sources */,
 				B8C2AF8929D6FE8000B47724 /* Game.swift in Sources */,
 			);
