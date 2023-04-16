@@ -40,19 +40,15 @@ struct Character { // modification des proprietes ici : single responsability.
         self.life -= weaponStrengh
     }
     
-    mutating func renameCharacter(_ rename: String){
-        self.name = rename
-    }
-    
     mutating func die(){
         if self.isDead {
-            print("☠️☠️☠️☠️☠️☠️☠️☠️☠️☠️  \(self.name) is now dead. ☠️☠️☠️☠️☠️☠️☠️☠️☠️☠️")
-            self.description = "☠️☠️☠️☠️☠️☠️☠️☠️☠️☠️"
-            self.name += " ☠️☠️☠️☠️☠️☠️☠️☠️"
+            Constant.characterGotKilled(name)
+            self.description = Constant.skull
+            self.name = Constant.skull
             self.life = 0.0
             self.weapon.strengh = 0.0
-            self.weapon.name = "☠️☠️☠️☠️☠️☠️☠️"
-            self.weapon.emoji = "☠️☠️☠️☠️☠️☠️☠️"
+            self.weapon.name = Constant.skull
+            self.weapon.emoji = Constant.skull
         }
     }
 }

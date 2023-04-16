@@ -31,9 +31,9 @@ final class Game {
     func displayResults() {
         Constant.displayGameOver()
         if player1.isAlive && !player2.isAlive {
-            Game.printWinner(player1, self.round)
+            Game.printWinner(player1, self.round - 1)
         } else if !player1.isAlive && player2.isAlive{
-            Game.printWinner(player2, self.round)
+            Game.printWinner(player2, self.round - 1)
         } else {
             Constant.printError()
         }
@@ -56,10 +56,12 @@ final class Game {
         designatePlayers()
         while player1.isAlive && player2.isAlive  {
             currentAttacker.selectAttackingCharacter()
-            guard let safeCharacter = currentAttacker.currentCharacter else { return Constant.printError() }
+            guard let safeCharacter = currentAttacker.currentCharacter
+            else { return Constant.printError() }
             switch safeCharacter.id {
                 case Characters.doctorStrange.id : // Player choose to heal.
                     currentAttacker.selectCharacterToHeal()
+                    currentAttacker.heal()
                 default: // Player chose to attack.
                     selectCharacterToBeAttacked()
                     currentAttacker.attack(currentTarget)
@@ -89,7 +91,7 @@ final class Game {
     private func selectCharacterToBeAttacked(){
         Constant.displayChooseCharacterInOtherTeam(currentAttacker)
         currentTarget.showTeam()
-        currentTarget.selectCharacterForMainFight()
+        currentTarget.selectCharacterToBeAttacked()
     }
     
 
@@ -147,7 +149,7 @@ final class Game {
 }
 
 
-// MARK: - Initialization extension
+// MARK: - Initialization extension for Game.
 
 private extension Game {
     
