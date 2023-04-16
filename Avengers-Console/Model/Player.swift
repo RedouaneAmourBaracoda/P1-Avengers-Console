@@ -99,42 +99,66 @@ final class Player {
     
     func makeTeam(){
         while characters.count < Player.maxCharactersPerTeam {
-            selectCharacterForInitialization()
+            do {
+                if let validSelection = try selectCharacterForInitialization() {
+                    addCharacter(validSelection)
+                    renameCharacter(id: validSelection.id)
+                    guard let currentCharacter else { return Constant.printError()}
+                    Game.allCharacters.append(currentCharacter)
+                    Characters.showCharacter(currentCharacter)
+                }
+            } catch UserInput.InvalidSelection.outOfBounds {
+                print(Constant.youMustSelectValidNumber)
+            } catch UserInput.InvalidSelection.alreadySelected {
+                print(Constant.youAlreadySelectedThisCharacter)
+            } catch {
+                Constant.printError()
+            }
         }
     }
-    private func selectCharacterForInitialization(){
-        var validNumber: Bool = false
-        repeat {
+    
+    enum UserInput {
+        case valid
+        case invalid(InvalidSelection)
+        
+        enum InvalidSelection: Error {
+            case outOfBounds
+            case alreadySelected
+        }
+    }
+    
+    private func selectCharacterForInitialization() throws -> Character? {
+        var output : Character?
+        var selectedNumber : UserInput = .invalid(.outOfBounds)
             showCurrentSelectionStep()
             if let selectedCharacter = readLine() {
                 let selectedCharacterId = Int(selectedCharacter)
-                switch selectedCharacterId {
-                case Characters.captain.id:
-                    addCharacter(Characters.captain.character)
-                    validNumber = true
-                case Characters.thor.id:
-                    addCharacter(Characters.thor.character)
-                    validNumber = true
-                case Characters.thanos.id:
-                    addCharacter(Characters.thanos.character)
-                    validNumber = true
-                case Characters.doctorStrange.id :
-                    addCharacter(Characters.doctorStrange.character)
-                    validNumber = true
-                default:
-                    print(Constant.youMustSelectValidNumber)
-                    validNumber = false
+                for character in Characters.allCharacters {
+                    if selectedCharacterId == character.id {
+                        if !characterAlreadyPresent(character: character) {
+                            selectedNumber = .valid
+                            output = character
+                        } else {
+                            selectedNumber = .invalid(.alreadySelected)
+                        }
+                        break
+                    }
+                }
+                switch selectedNumber {
+                case .valid :
+                    break
+                case .invalid(.outOfBounds):
+                    throw UserInput.InvalidSelection.outOfBounds
+                case.invalid(.alreadySelected):
+                    throw UserInput.InvalidSelection.alreadySelected
                 }
             }
-        } while !validNumber
+        return output
     }
 
     func addCharacter(_ character: Character){
-        if  self.characters.count < Player.maxCharactersPerTeam && !characterAlreadyPresent(character: character){
+        if  self.characters.count < Player.maxCharactersPerTeam {
             characters.append(character)
-            renameCharacter(id: character.id)
-        } else {
-            print(Constant.youAlreadySelectedThisCharacter)
         }
     }
     
@@ -170,8 +194,7 @@ final class Player {
             for i in characters.indices {
                 if characters[i].id == id {
                     characters[i].renamed(newName)
-                    Game.allCharacters.append(characters[i])
-                    Characters.showCharacter(characters[i])
+                    currentCharacter = characters[i]
                 }
             }
         }
@@ -240,32 +263,31 @@ extension Player {
     
     func selectCharacterForMainFight(){
         var validNumber: SelectedNumber = .invalid(.outOfBound)
-            repeat {
-                    if let selectedCharacter = readLine() {
-                        let selectedCharacterId = Int(selectedCharacter)
-                            for character in characters {
-                                if character.id == selectedCharacterId {
-                                    if !character.isDead {
-                                        self.currentCharacter = character
-                                        validNumber = .valid
-                                        break
-                                    } else {
-                                        validNumber = .invalid(.characterIsDead)
-                                        break
-                                    }
-                                }
-                                validNumber = .invalid(.outOfBound)
-                            }
-                        switch validNumber {
-                        case .valid:
+        repeat {
+            if let selectedCharacter = readLine() {
+                let selectedCharacterId = Int(selectedCharacter)
+                for character in characters {
+                    if character.id == selectedCharacterId {
+                        if !character.isDead {
+                            self.currentCharacter = character
+                            validNumber = .valid
                             break
-                        case .invalid(let invalidNumber):
-                            youMustSelectValidCharacter(invalidNumber)
+                        } else {
+                            validNumber = .invalid(.characterIsDead)
+                            break
                         }
                     }
-            } while validNumber == .invalid(.outOfBound) || validNumber == .invalid(.characterIsDead)
+                    validNumber = .invalid(.outOfBound)
+                }
+                switch validNumber {
+                case .valid:
+                    break
+                case .invalid(let invalidNumber):
+                    youMustSelectValidCharacter(invalidNumber)
+                }
+            }
+        } while validNumber == .invalid(.outOfBound) || validNumber == .invalid(.characterIsDead)
     }
-    
     
     
     func youMustSelectValidCharacter(_ invalidNumber: SelectedNumber.InvalidNumber){
