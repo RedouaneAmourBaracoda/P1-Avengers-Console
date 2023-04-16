@@ -181,7 +181,7 @@ enum Characters: CaseIterable { // question possible : pq l'enum ? -> erreur de 
         case .thanos:
             return Weapon(name: "Ring", strengh: 70.0, emoji: "💍")
         case .doctorStrange:
-            return Weapon(name: "Care", strengh: 20.0, emoji: "🚑")
+            return Weapon(name: "Care", strengh: 30.0, emoji: "🚑")
         }
     }
 }

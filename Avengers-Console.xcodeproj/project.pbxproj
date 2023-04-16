@@ -46,12 +46,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		B8BFDC0829E98D220073472C /* Main */ = {
+		B8BFDC0829E98D220073472C /* View */ = {
 			isa = PBXGroup;
 			children = (
 				B8C2AF7929D6F9D100B47724 /* main.swift */,
 			);
-			path = Main;
+			path = View;
 			sourceTree = "<group>";
 		};
 		B8C2AF6D29D6F9D100B47724 = {
@@ -73,9 +73,9 @@
 		B8C2AF7829D6F9D100B47724 /* Avengers-Console */ = {
 			isa = PBXGroup;
 			children = (
-				B8BFDC0829E98D220073472C /* Main */,
-				B8C2AF8729D6FAA700B47724 /* Game */,
 				B8C2AF8429D6FA7800B47724 /* Model */,
+				B8BFDC0829E98D220073472C /* View */,
+				B8C2AF8729D6FAA700B47724 /* Controller */,
 			);
 			path = "Avengers-Console";
 			sourceTree = "<group>";
@@ -89,13 +89,13 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		B8C2AF8729D6FAA700B47724 /* Game */ = {
+		B8C2AF8729D6FAA700B47724 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
 				B8C2AF8829D6FE8000B47724 /* Game.swift */,
 				B8C2AF8A29D7064000B47724 /* Constants.swift */,
 			);
-			path = Game;
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

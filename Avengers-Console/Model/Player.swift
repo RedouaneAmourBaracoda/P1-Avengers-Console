@@ -15,23 +15,7 @@ final class Player {
     let name : String
     var characters : [Character] = []
     var currentCharacter: Character?
-    var isAlive : Bool { // Character is dead if no more characters or only a doctor remains.
-        var output = true
-        if characters.count == Player.maxCharactersPerTeam {
-            var aliveCharacters : [Character] = []
-            for character in characters {
-                if !character.isDead {
-                    aliveCharacters.append(character)
-                }
-            }
-            if aliveCharacters.count == 0 || (aliveCharacters.count == 1 && aliveCharacters.contains(where: { character in
-                character.id == Characters.doctorStrange.id
-            })) {
-                output = false
-            }
-        }
-        return output
-    }
+    var isAlive : Bool { playerAlive() }
     
     
     // MARK: - init()
@@ -101,6 +85,25 @@ final class Player {
         target.currentCharacter?.decreaseLife(by: (currentCharacter?.weapon.strengh)!)
         Constant.showWhatHappened(self, target)
         target.updateCharacter()
+    }
+    
+    func playerAlive() -> Bool { // Character is dead if no more characters or only a doctor remains.
+        var output = true
+        if characters.count == Player.maxCharactersPerTeam {
+            var aliveCharacters : [Character] = []
+            for character in characters {
+                if !character.isDead {
+                    aliveCharacters.append(character)
+                }
+            }
+            if aliveCharacters.count == 0 || (aliveCharacters.count == 1 && aliveCharacters.contains(where: { character in
+                character.id == Characters.doctorStrange.id
+            }))
+            {
+                output = false
+            }
+        }
+        return output
     }
     
     func heal() {
