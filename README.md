@@ -1,4 +1,4 @@
-# P1-Avengers-Console
+# P3-Creer-votre-premier-jeu-video-avec-Swift
 
 
 This project is part of my OpenClassrooms iOS developer courses and aims at understanding the very fundamentals of Object-Oriented-Programming with Swift.
