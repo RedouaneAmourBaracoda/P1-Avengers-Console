@@ -7,7 +7,7 @@
 
 import Foundation
 
-
+// Choose initialization that best fits.
 enum Initialize {
     case autoInitialize
     case initializeForReal
