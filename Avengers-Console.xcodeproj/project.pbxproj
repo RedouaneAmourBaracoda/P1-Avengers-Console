@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B8BD3DEB29F30AA100305B6B /* CharacterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD3DEA29F30AA100305B6B /* CharacterFactory.swift */; };
 		B8C2AF7A29D6F9D100B47724 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C2AF7929D6F9D100B47724 /* main.swift */; };
 		B8C2AF8129D6FA1000B47724 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C2AF8029D6FA0F00B47724 /* Character.swift */; };
 		B8C2AF8329D6FA4200B47724 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C2AF8229D6FA4200B47724 /* Player.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B8BD3DEA29F30AA100305B6B /* CharacterFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterFactory.swift; sourceTree = "<group>"; };
 		B8BFDC0F29EC5A030073472C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		B8C2AF7629D6F9D100B47724 /* Avengers-Console */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Avengers-Console"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8C2AF7929D6F9D100B47724 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 			children = (
 				B8C2AF8229D6FA4200B47724 /* Player.swift */,
 				B8C2AF8029D6FA0F00B47724 /* Character.swift */,
+				B8BD3DEA29F30AA100305B6B /* CharacterFactory.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -160,6 +163,7 @@
 			files = (
 				B8C2AF8B29D7064000B47724 /* Constants.swift in Sources */,
 				B8C2AF7A29D6F9D100B47724 /* main.swift in Sources */,
+				B8BD3DEB29F30AA100305B6B /* CharacterFactory.swift in Sources */,
 				B8C2AF8329D6FA4200B47724 /* Player.swift in Sources */,
 				B8C2AF8129D6FA1000B47724 /* Character.swift in Sources */,
 				B8C2AF8929D6FE8000B47724 /* Game.swift in Sources */,

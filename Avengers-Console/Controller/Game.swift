@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class Game {
+final class Game { // Joue le rôle de controlleur.
     
     // MARK: - properties
     private var player1: Player
@@ -58,11 +58,11 @@ final class Game {
             currentAttacker.selectAttackingCharacter()
             guard let safeCharacter = currentAttacker.currentCharacter
             else { return Constant.printError() }
-            switch safeCharacter.id {
-                case Characters.doctorStrange.id : // Player choose to heal.
+            switch safeCharacter.role {
+            case .healer: // Player choose to heal.
                     currentAttacker.selectCharacterToHeal()
                     currentAttacker.heal()
-                default: // Player chose to attack.
+            case .attacker: // Player chose to attack.
                     selectCharacterToBeAttacked()
                     currentAttacker.attack(currentTarget)
             }
@@ -96,7 +96,7 @@ final class Game {
     
 
     // MARK: - Initialization
-    
+
     func generalInitialize(_ initialize: Initialize){ // question possible: pq pas de defaut. Différence entre paramètre (signature fonction). et argument (valeur passée).
         switch initialize {
         case .autoInitialize:
