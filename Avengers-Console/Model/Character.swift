@@ -13,9 +13,9 @@ enum Role {
 }
 
 struct Weapon {
-    let name: String
+    var name: String
     let strengh: Float
-    let emoji: String
+    var emoji: String
 }
 
 struct Character { // modification des proprietes ici : single responsability.
@@ -30,8 +30,8 @@ struct Character { // modification des proprietes ici : single responsability.
             return false
         }
     }
-    let weapon: Weapon
-    let description: String
+    var weapon: Weapon
+    var description: String
     let id: Int
     
     init(name: String, life: Float, role: Role, weapon: Weapon, image: String, description: String, id: Int) {
@@ -56,6 +56,10 @@ struct Character { // modification des proprietes ici : single responsability.
             Constant.characterGotKilled(name)
             self.name = Constant.skull
             self.life = 0.0
+            self.weapon.name = Constant.skull
+            self.weapon.emoji = Constant.skull
+            self.description = Constant.skull
+            
         }
     }
 }

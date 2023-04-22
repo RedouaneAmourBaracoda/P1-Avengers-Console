@@ -23,10 +23,10 @@ enum Characters: CaseIterable {
     
     static func showCharacter(_ character: Character) {
         print(
-            "-- \(character.id): \(character.name), ",
+            "  -- \(character.id): \(character.name), ",
             "life: \(character.life), ",
             "weapon: \(character.weapon.name) \(character.weapon.emoji) with", "strengh: \(character.weapon.strengh), ",
-            "description: \(character.description)\n"
+            "description: \(character.description)"
             )
     }
     

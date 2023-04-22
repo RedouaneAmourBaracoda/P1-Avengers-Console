@@ -29,6 +29,7 @@ final class Player {
     
     func selectAttackingCharacter(){
         Constant.selectCharacterForAttacking(name)
+        print(availableCharactersForFight())
         currentCharacter = nil
         while currentCharacter == nil {
             do {
@@ -47,6 +48,7 @@ final class Player {
     
     func selectCharacterToHeal(){
         Constant.selectCharacterToHeal(name)
+        print(availableCharactersForFight())
         currentCharacter = nil
         while currentCharacter == nil {
             do {
@@ -141,7 +143,11 @@ final class Player {
                     renameCharacter(id: validSelection.id)
                     guard let currentCharacter else { return Constant.printError()}
                     Game.allCharacters.append(currentCharacter)
+                    Constant.displayCharacterSelected()
                     Characters.showCharacter(currentCharacter)
+                    Constant.skipLines(1)
+                    Constant.hitEnterToContinue()
+                    
                 }
             } catch UserInput.InvalidSelection.outOfBounds {
                 youMustSelectValidCharacter(.outOfBounds, availableCharactersForInitialization)
@@ -151,6 +157,10 @@ final class Player {
                 Constant.printError()
             }
         }
+        Constant.displayTeamComplete(player: self)
+        showTeam()
+        Constant.hitEnterToContinue()
+        Constant.skipLines(20)
     }
 
     func addCharacter(_ character: Character){
@@ -187,7 +197,7 @@ final class Player {
         var output : Bool = false
         if !nameAlreadyExists(name: newName) {
             output = true
-            Constant.skipLines(1)
+//            Constant.skipLines(1)
             for i in characters.indices {
                 if characters[i].id == id {
                     characters[i].renamed(newName)
@@ -346,9 +356,11 @@ extension Player {
     private func showCurrentSelectionStep(){
         switch self.characters.count {
         case 0:
-            print("\(self.name)", Constant.selectYourFirstCharacter, self.availableCharactersForInitialization(), terminator: "" )
-        case 1: print("\(self.name)", Constant.selectYourSecondCharacter, self.availableCharactersForInitialization(), terminator: "")
-        case 2: print("\(self.name)", Constant.selectYourThirdCharacter, self.availableCharactersForInitialization(), terminator: "")
+            print(" 🛂 \(self.name)", Constant.selectYourFirstCharacter, self.availableCharactersForInitialization(), terminator: "" )
+        case 1:
+            print(" 🛂 \(self.name)", Constant.selectYourSecondCharacter, self.availableCharactersForInitialization(), terminator: "")
+        case 2:
+            print(" 🛂 \(self.name)", Constant.selectYourThirdCharacter, self.availableCharactersForInitialization(), terminator: "")
         default: Constant.printError()
         }
     }

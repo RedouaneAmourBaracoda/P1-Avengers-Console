@@ -144,7 +144,7 @@ final class Game { // Joue le rôle de controlleur.
             player.showTeam()
         }
         Constant.hitEnterToContinue()
-        Constant.skipLines(2)
+        Constant.skipLines(1)
     }
 }
 
