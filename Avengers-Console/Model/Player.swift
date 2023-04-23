@@ -82,10 +82,10 @@ final class Player {
 
     
     func attack(_ target: Player){
-        guard let _ = target.currentCharacter, let _ = currentCharacter
+        guard let targetBeforeAttack = target.currentCharacter, let _ = currentCharacter
         else { return print(Constant.thereWasAnErrorWhilleAttacking) }
         target.currentCharacter?.decreaseLife(by: (currentCharacter?.weapon.strengh)!)
-        Constant.showWhatHappened(self, target)
+        Constant.showWhatHappened(self, targetBeforeAttack, target)
         target.updateCharacter()
     }
     
@@ -324,16 +324,20 @@ extension Player {
         }
     }
     
-    private func availableCharactersForFight() -> String {
+    func availableCharactersForFight() -> String {
         let characters = self.characters
         var string = "("
+        var aliveCharacter : [Character] = []
         for character in characters {
             if !character.isDead {
-                if character.id == characters.last?.id {
-                    string.append(String(character.id) + ")")
-                } else {
-                    string.append(String(character.id) + ", ")
-                }
+                aliveCharacter.append(character)
+            }
+        }
+        for character in aliveCharacter {
+            if character.id == aliveCharacter.last?.id {
+                string.append(String(character.id) + ")")
+            } else {
+                string.append(String(character.id) + ", ")
             }
         }
         return (string + ": ")
@@ -356,11 +360,11 @@ extension Player {
     private func showCurrentSelectionStep(){
         switch self.characters.count {
         case 0:
-            print(" 🛂 \(self.name)", Constant.selectYourFirstCharacter, self.availableCharactersForInitialization(), terminator: "" )
+            print(" \(self.name)", Constant.selectYourFirstCharacter, self.availableCharactersForInitialization(), terminator: "" )
         case 1:
-            print(" 🛂 \(self.name)", Constant.selectYourSecondCharacter, self.availableCharactersForInitialization(), terminator: "")
+            print(" \(self.name)", Constant.selectYourSecondCharacter, self.availableCharactersForInitialization(), terminator: "")
         case 2:
-            print(" 🛂 \(self.name)", Constant.selectYourThirdCharacter, self.availableCharactersForInitialization(), terminator: "")
+            print(" \(self.name)", Constant.selectYourThirdCharacter, self.availableCharactersForInitialization(), terminator: "")
         default: Constant.printError()
         }
     }

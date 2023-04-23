@@ -16,9 +16,11 @@ enum Characters: CaseIterable {
     static let maxLife: Float = 100.0
     
     static func displayAllPossibleCharacters(){
+        print(Constant.list)
         for character in allCharacters {
             showCharacter(character)
         }
+        Constant.skipLines(1)
     }
     
     static func showCharacter(_ character: Character) {
@@ -117,11 +119,11 @@ enum Characters: CaseIterable {
     var startingLife: Float {
         switch self {
         case .captain:
-            return 50.0
+            return 55.0
         case .thor:
-            return 45.0
+            return 50.0
         case .thanos:
-            return 40.0
+            return 45.0
         case .doctorStrange:
             return 90.0
         }
@@ -130,11 +132,11 @@ enum Characters: CaseIterable {
     var weapon: Weapon {
         switch self {
         case .captain:
-            return Weapon(name: "Shield", strengh: 50.0, emoji: "🛡️")
+            return Weapon(name: "Shield", strengh: 30.0, emoji: "🛡️")
         case .thor:
-            return Weapon(name: "Thunder", strengh: 60.0, emoji: "⚡️")
+            return Weapon(name: "Thunder", strengh: 45.0, emoji: "⚡️")
         case .thanos:
-            return Weapon(name: "Ring", strengh: 70.0, emoji: "💍")
+            return Weapon(name: "Ring", strengh: 55.0, emoji: "💍")
         case .doctorStrange:
             return Weapon(name: "Care", strengh: 30.0, emoji: "🚑")
         }

@@ -89,8 +89,12 @@ final class Game { // Joue le rôle de controlleur.
     }
     
     private func selectCharacterToBeAttacked(){
-        Constant.displayChooseCharacterInOtherTeam(currentAttacker)
+        Constant.displayChooseCharacterInOtherTeam(currentAttacker, currentTarget)
+        Constant.skipLines(2)
         currentTarget.showTeam()
+        Constant.skipLines(1)
+        print("Your choice ", terminator: "")
+        print(currentTarget.availableCharactersForFight())
         currentTarget.selectCharacterToBeAttacked()
     }
     
@@ -120,6 +124,7 @@ final class Game { // Joue le rôle de controlleur.
         let players = [player1, player2]
         for player in players {
             player.makeTeam()
+            Characters.displayAllPossibleCharacters()
         }
     }
     
@@ -142,6 +147,7 @@ final class Game { // Joue le rôle de controlleur.
         let players = [player1, player2]
         for player in players {
             player.showTeam()
+            Constant.skipLines(1)
         }
         Constant.hitEnterToContinue()
         Constant.skipLines(1)

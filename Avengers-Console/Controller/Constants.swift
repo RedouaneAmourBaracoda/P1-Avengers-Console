@@ -11,7 +11,7 @@ public struct Constant {
     
     static func hitEnterToContinue() {
         skipLines(1)
-        print("                                           ⤷ 🔵 Hit enter to continue 🔵 ⤶"); let _ = readLine()
+        print("                                           ⤷ Hit enter to continue ⤶"); let _ = readLine()
     }
     
     static func skipLines(_ lines: Int){
@@ -25,10 +25,16 @@ public struct Constant {
 
     }
     
-    static func showWhatHappened(_ attacker: Player, _ target: Player) {
+    static let list = "                                                👾 List of characters 👾"
+    
+    static func remainingLife(_ character: Character) {
+        print(" 💬", character.name, "has now", character.life, "life points")
+    }
+    static func showWhatHappened(_ attacker: Player, _ targetBeforeAttack: Character ,_ target: Player) {
         skipLines(2)
         print("     💥BIM!  ....   💥BAAAAAAAM!     ....    💥BOOM!  ")
-        print(" 🛂", attacker.currentCharacter!.name, "used his", attacker.currentCharacter!.weapon.name, attacker.currentCharacter!.weapon.emoji, "to attack", target.currentCharacter!.name, "who has lost", attacker.currentCharacter!.weapon.strengh, "life points. ")
+        skipLines(2)
+        print(" 💬 \(targetBeforeAttack.name) initially had \(targetBeforeAttack.life) life points but", attacker.currentCharacter!.name, "used his", attacker.currentCharacter!.weapon.name, attacker.currentCharacter!.weapon.emoji, "with a power of \(attacker.currentCharacter!.weapon.strengh)", "to attack \(target.currentCharacter!.name).")
     }
 
     static func characterOutOfBounds() {
@@ -40,12 +46,12 @@ public struct Constant {
     }
     
     static func characterIsDead() {
-        print("🪦 Sorry this character is not alive anymore 🪦. May he rest in peace 👼🏻.", terminator: "")
+        print("🪦 Sorry this character is not alive anymore 🪦. 👼🏻 RIP 👼🏻.", terminator: "")
         print(" You can only select alive character -> ", terminator: "")
     }
     
     static func playerSelected(_ playerName: String, _ characterName: String){
-        print(" 🛂 \(playerName) selected \(characterName) ✅. ", terminator: "")
+        print(" \(playerName) selected \(characterName) ✅. ", terminator: "")
     }
     
     static func selectCharacterToHeal(_ name: String) {
@@ -67,20 +73,19 @@ public struct Constant {
     
     static func displayGameRecap(){
         skipLines(20)
-        print("                                              🛂  GAME RECAP ")
+        print("                                              👾  GAME RECAP ")
     }
     
     static func playerBecomesTheWinner(_ player: Player, _ rounds: Int){
-        print(" 🛂 🏆 \(player.name) BECOMES THE WINNER AFTER \(rounds) ROUNDS 🏆")
+        print(" 🏆 \(player.name) BECOMES THE WINNER AFTER \(rounds) ROUNDS 🏆")
     }
     
-    static func displayChooseCharacterInOtherTeam(_ player: Player) {
-        print(" 🛂",player.name, "now choose a character to attack in other team ? ")
-        skipLines(2)
+    static func displayChooseCharacterInOtherTeam(_ attacker: Player, _ target: Player) {
+        print(attacker.name, "now choose a character to attack in \(target.name) ? ", terminator: "")
     }
     
     static func displayGameOver() {
-        print("                                              🛂   GAME OVER.\n")
+        print("                                              💬   GAME OVER.\n")
         print("\n")
     }
     
@@ -89,32 +94,32 @@ public struct Constant {
     }
     
     static func displayFirstAttacker (_ player: Player) {
-        print(" 🛂 \(player.name) you have been designated to start attacking. ", terminator: "")
+        print(" \(player.name) you have been designated to start attacking. ", terminator: "")
     }
     
     static func displaySwapPlayer(_ player: Player){
-        print(" 🛂 \(player.name) becomes now attacking team. ", terminator: "")
+        print(" \(player.name) becomes now attacking team. ", terminator: "")
     }
     
     static func displayRenameCharacter() {
         print(Constant.renameThisCharacter, terminator: "")
     }
     
-    static let skull = "☠️☠️☠️☠️☠️☠️☠️"
+    static let skull = "☠️☠️☠️☠️☠️"
     
-    static let renameThisCharacter = " 🛂 Rename this character : "
+    static let renameThisCharacter = " 💬 Rename this character : "
     
-    static let player1Name = "Team 1"
+    static let player1Name = "🔵 Team 1"
     
-    static let player2Name = "Team 2"
+    static let player2Name = "🟠 Team 2"
     
     static let thisIsYourTeam = " This is your team : \n"
     
-    static let selectYourFirstCharacter = " please select your character n°1️⃣ with valid number"
+    static let selectYourFirstCharacter = "please select your character n°1️⃣ with valid number"
     
-    static let selectYourSecondCharacter = " please select your character n°2️⃣ with valid number. Remember characters must be different. Available characters"
+    static let selectYourSecondCharacter = "please select your character n°2️⃣ with valid number. Remember characters must be different. Available characters"
     
-    static let selectYourThirdCharacter = " please select your character n°3️⃣. Available characters"
+    static let selectYourThirdCharacter = "please select your character n°3️⃣. Available characters"
     
     static let youMustSelectValidNumber = " You must enter a valid number. Available characters -> "
     
@@ -137,7 +142,7 @@ public struct Constant {
 
 
 
-Welcome to the Avengers game. In this game, there will be two players, each one needs to select 3 characters among the list below : \n
+💬 Welcome to the Avengers game. In this game, there will be two players, each one needs to select 3 characters among the list below : \n
 
 
 

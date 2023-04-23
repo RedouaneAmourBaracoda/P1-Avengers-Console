@@ -60,6 +60,10 @@ struct Character { // modification des proprietes ici : single responsability.
             self.weapon.emoji = Constant.skull
             self.description = Constant.skull
             
+        } else {
+            if role == .attacker {
+                Constant.remainingLife(self)
+            }
         }
     }
 }
