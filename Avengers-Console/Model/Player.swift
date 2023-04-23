@@ -113,7 +113,7 @@ final class Player {
         updateCharacter()
     }
     
-    func updateCharacter(){ // character is value type. 
+    func updateCharacter(){ // character is value type.
         guard let safeCharacter = currentCharacter, characters.count > 0 else { return Constant.printError()}
         for index in 0...characters.count - 1 {
             if safeCharacter.id == characters[index].id {
