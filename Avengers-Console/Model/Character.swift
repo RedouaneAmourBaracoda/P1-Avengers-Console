@@ -18,9 +18,9 @@ struct Weapon {
     var emoji: String
 }
 
-struct Character { // modification des proprietes ici : single responsability.
-    // pourquoi utiliser des variables statiques.
-    var name: String // var because of rename function.
+// Note: attributes declared as variables because of rename() and die() functions.
+struct Character {
+    var name: String
     var life: Float
     let role: Role
     var isDead: Bool {
@@ -47,11 +47,7 @@ struct Character { // modification des proprietes ici : single responsability.
         self.name = newName
     }
     
-    mutating func decreaseLife(by weaponStrengh: Float){
-        self.life -= weaponStrengh
-    }
-    
-    mutating func die(){
+    mutating func die(){ // When character is dead, we want to replace all atributes by 💀
         if self.isDead {
             Constant.characterGotKilled(name)
             self.name = Constant.skull
@@ -61,9 +57,26 @@ struct Character { // modification des proprietes ici : single responsability.
             self.description = Constant.skull
             
         } else {
-            if role == .attacker {
-                Constant.remainingLife(self)
-            }
+            Constant.remainingLife(self)
+        }
+    }
+    
+    mutating func decreaseLife(by weaponStrengh: Float){
+        self.life -= weaponStrengh
+    }
+    
+    mutating func increaseLife(){ // Character life cannot exceed 100.0.
+        let initialLife = life
+        Constant.skipLines(1)
+        if life == Characters.maxLife {
+            print(name, "is already doing well ✅ with a life of", life, "life points ")
+        } else if life < Characters.maxLife && life > Characters.maxLife - Characters.doctorStrange.weapon.strengh {
+            life =  Characters.maxLife
+            print(" 💬" , name, "initially had \(initialLife) life points but was healed 🚑 by doctor who provided +30 life points.")
+            print(" 💬 Life cannot exceed 100.0.", terminator: "")
+        } else {
+            life += Characters.doctorStrange.weapon.strengh
+            print(" 💬", name, "initially had \(initialLife) life points but was healed 🚑 by doctor who provided +30 life points.", terminator: "")
         }
     }
 }

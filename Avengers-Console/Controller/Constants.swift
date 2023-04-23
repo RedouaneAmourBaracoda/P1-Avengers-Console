@@ -28,7 +28,7 @@ public struct Constant {
     static let list = "                                                👾 List of characters 👾"
     
     static func remainingLife(_ character: Character) {
-        print(" 💬", character.name, "has now", character.life, "life points")
+        print(" 💬", character.name, "has now", character.life, "life points.")
     }
     static func showWhatHappened(_ attacker: Player, _ targetBeforeAttack: Character ,_ target: Player) {
         skipLines(2)
@@ -54,12 +54,12 @@ public struct Constant {
         print(" \(playerName) selected \(characterName) ✅. ", terminator: "")
     }
     
-    static func selectCharacterToHeal(_ name: String) {
-        print("\(name)", Constant.selectCharacterToHeal, terminator: "")
+    static func selectCharacterToHeal(_ name: String, _ availableCharacter: String) {
+        print("\(name)", Constant.selectCharacterToHeal, availableCharacter, terminator: "")
     }
     
-    static func selectCharacterForAttacking(_ name: String){
-        print("\(name)", Constant.selectCharacterForAttacking, terminator: "")
+    static func selectCharacterForAttacking(_ name: String, _ availableCharacters: String){
+        print("\(name)", Constant.selectCharacterForAttacking, availableCharacters, terminator: "")
     }
     
     static func displayTeamComplete(player: Player){
@@ -131,9 +131,9 @@ public struct Constant {
         print("Sorry, there has been an error occuring ...")
     }
     
-    static let selectCharacterForAttacking = "select a character for attacking "
+    static let selectCharacterForAttacking = "select a character for attacking"
     
-    static let selectCharacterToHeal = "select a character to heal: "
+    static let selectCharacterToHeal = "select a character to heal"
     
     static let thereWasAnErrorWhilleAttacking = "there was an error while attacking: one of the players has his current character not initialized."
     

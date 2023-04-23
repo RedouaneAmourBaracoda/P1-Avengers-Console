@@ -28,8 +28,7 @@ final class Player {
     // MARK: - Player MainFight
     
     func selectAttackingCharacter(){
-        Constant.selectCharacterForAttacking(name)
-        print(availableCharactersForFight())
+        Constant.selectCharacterForAttacking(name, availableCharactersForFight())
         currentCharacter = nil
         while currentCharacter == nil {
             do {
@@ -47,8 +46,7 @@ final class Player {
     }
     
     func selectCharacterToHeal(){
-        Constant.selectCharacterToHeal(name)
-        print(availableCharactersForFight())
+        Constant.selectCharacterToHeal(name, availableCharactersForFight())
         currentCharacter = nil
         while currentCharacter == nil {
             do {
@@ -109,17 +107,9 @@ final class Player {
     }
     
     func heal() {
-        guard let life = self.currentCharacter?.life
+        guard let _ = self.currentCharacter?.life
         else { return print(Constant.thereWasAnErrorWhilleAttacking) }
-        if life == Characters.maxLife {
-            print(self.currentCharacter!.name, "is already doing well ✅ with a life of", self.currentCharacter!.life, "life points ")
-        } else if life < Characters.maxLife && life > Characters.maxLife - Characters.doctorStrange.weapon.strengh {
-            self.currentCharacter?.life = Characters.maxLife
-            print(self.currentCharacter!.name, "was healed 🚑 and now has a life of", self.currentCharacter!.life, "life points ")
-        } else {
-            self.currentCharacter?.life += Characters.doctorStrange.weapon.strengh
-            print(self.currentCharacter!.name, "was healed 🚑 and now has a life of", self.currentCharacter!.life, "life points ")
-        }
+        currentCharacter?.increaseLife()
         updateCharacter()
     }
     
