@@ -15,7 +15,7 @@ enum Initialize {
 }
 
 let game = Game()
-game.generalInitialize(.autoInitialize) //  Game is initialized with teams. And returns to main.
+game.generalInitialize(.initializeForReal) //  Game is initialized with teams. And returns to main.
 game.mainFight()
 game.displayResults()
 
